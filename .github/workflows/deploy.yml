@@ -1,11 +1,14 @@
 # Builds and publishes the site to GitHub Pages on every push to main.
 #
-# One-time setup (repository Settings):
-#   - Pages > Build and deployment > Source: "GitHub Actions"
+# One-time setup (repository Settings), following the Pages quickstart:
+#   - The repository is named vccorg.github.io and is public (GitHub Free needs public).
+#   - Pages > Build and deployment > Source: "GitHub Actions". Not "Deploy from a
+#     branch": that serves files as committed, and this site has to be built first.
 #   - Variables (Settings > Secrets and variables > Actions > Variables), optional:
 #       WAITLIST_ENDPOINT  where the waitlist form posts; with CONTACT_EMAIL opens the form
 #       CONTACT_EMAIL      address for data requests, shown on the privacy page
-#       SITE_URL, BASE_PATH  only for a custom domain (https://your.domain and "/")
+#       SITE_URL   only for a custom domain (https://your.domain)
+#       BASE_PATH  only if the repository is NOT named vccorg.github.io (/<repo-name>)
 name: deploy
 on:
   push:
@@ -26,7 +29,7 @@ jobs:
       PUBLIC_WAITLIST_ENDPOINT: ${{ vars.WAITLIST_ENDPOINT }}
       PUBLIC_CONTACT_EMAIL: ${{ vars.CONTACT_EMAIL }}
       SITE_URL: ${{ vars.SITE_URL || 'https://vccorg.github.io' }}
-      BASE_PATH: ${{ vars.BASE_PATH || '/keelyard-web' }}
+      BASE_PATH: ${{ vars.BASE_PATH || '/' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

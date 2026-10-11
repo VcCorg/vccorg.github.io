@@ -22,11 +22,24 @@ const read = (dir, file) => fs.readFileSync(path.join(dir, file), "utf8");
 const closed = build({});
 const open = build({ PUBLIC_WAITLIST_ENDPOINT: "https://forms.example.test/f/abc", PUBLIC_CONTACT_EMAIL: "hello@example.test" });
 const halfOpen = build({ PUBLIC_WAITLIST_ENDPOINT: "https://forms.example.test/f/abc" });
-const customDomain = build({ SITE_URL: "https://keel.example.test", BASE_PATH: "/" });
+const customDomain = build({ SITE_URL: "https://keel.example.test" });
+const projectSite = build({ BASE_PATH: "/keelyard-web" });
 
-test("every internal link resolves on GitHub Pages, under the project base path", () => {
-  assert.deepEqual(checkSite(closed, { base: "/keelyard-web", site: "https://vccorg.github.io" }), []);
-  assert.deepEqual(checkSite(open, { base: "/keelyard-web", site: "https://vccorg.github.io" }), []);
+test("every internal link resolves on the organisation site, at the root", () => {
+  assert.deepEqual(checkSite(closed, { base: "/", site: "https://vccorg.github.io" }), []);
+  assert.deepEqual(checkSite(open, { base: "/", site: "https://vccorg.github.io" }), []);
+  assert.match(read(closed, "index.html"), /href="\/privacy\/"/);
+});
+
+test("built as a project site, every link carries the repository's path", () => {
+  assert.deepEqual(checkSite(projectSite, { base: "/keelyard-web", site: "https://vccorg.github.io" }), []);
+  assert.match(read(projectSite, "index.html"), /href="\/keelyard-web\/privacy\/"/);
+});
+
+test("Jekyll is switched off, so _astro/ is served even if the source is ever set to a branch", () => {
+  // GitHub Pages' branch mode runs Jekyll, which drops folders starting with "_".
+  assert.ok(fs.existsSync(path.join(closed, ".nojekyll")));
+  assert.ok(fs.readdirSync(closed).includes("_astro"));
 });
 
 test("a link without the base path is caught (it would 404 on a project site)", () => {
@@ -38,9 +51,9 @@ test("a link without the base path is caught (it would 404 on a project site)", 
   assert.equal(problems.length, 3, problems.join("\n"));
 });
 
-test("a custom-domain build (base /) also resolves", () => {
+test("a custom-domain build resolves and points canonical URLs at the domain", () => {
   assert.deepEqual(checkSite(customDomain, { base: "/", site: "https://keel.example.test" }), []);
-  assert.match(read(customDomain, "index.html"), /href="\/privacy\/"/);
+  assert.match(read(customDomain, "index.html"), /<link rel="canonical" href="https:\/\/keel\.example\.test\/"/);
 });
 
 test("nothing is loaded from another site: no third-party scripts, styles, fonts or images", () => {
@@ -89,7 +102,7 @@ test("every page has a title, a description and a canonical URL on the right hos
     const html = read(closed, file);
     assert.match(html, /<title>[^<]+<\/title>/);
     assert.match(html, /<meta name="description" content="[^"]+"/);
-    assert.match(html, /<link rel="canonical" href="https:\/\/vccorg\.github\.io\/keelyard-web\//);
+    assert.match(html, /<link rel="canonical" href="https:\/\/vccorg\.github\.io\//);
   }
 });
 

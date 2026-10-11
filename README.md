@@ -3,14 +3,13 @@
 The marketing site for **Keel**, the governed context layer for coding agents.
 The product itself lives in [VcCorg/keelyard](https://github.com/VcCorg/keelyard).
 
-Static [Astro](https://astro.build) site, published to GitHub Pages at
-<https://vccorg.github.io/keelyard-web/>.
+Static [Astro](https://astro.build) site, published to GitHub Pages at <https://vccorg.github.io/>.
 
 ## Work on it
 
 ```bash
 npm ci
-npm run dev          # http://localhost:4321/keelyard-web/
+npm run dev          # http://localhost:4321/
 npm run build        # -> dist/
 npm test             # builds the site several ways and checks what a visitor gets
 npm run check:links  # every link resolves under the base path
@@ -20,19 +19,31 @@ Node 22.12 or newer (`.nvmrc`).
 
 ## Publishing
 
-Every push to `main` builds and deploys (`.github/workflows/deploy.yml`). Pull requests run the same
-checks without deploying (`ci.yml`).
+This follows the [GitHub Pages quickstart](https://docs.github.com/en/pages/quickstart) for an organisation
+site, with one deliberate difference at step 8.
 
-One-time repository setup:
+1. **The repository is named `vccorg.github.io`.** That name is what puts the site at the root,
+   `https://vccorg.github.io/`. Under any other name it is a project site at
+   `https://vccorg.github.io/<repo>/`; then set the variable `BASE_PATH=/<repo>`.
+2. **The repository is public.** On GitHub Free, Pages publishes only from public repositories.
+3. **Settings → Pages → Build and deployment → Source: GitHub Actions.** The quickstart picks
+   "Deploy from a branch", which serves the files exactly as committed (through Jekyll). This site has to be
+   built first, so the deploy workflow builds it and publishes the result. The quickstart's `_config.yml`
+   title and description are Jekyll settings; here they live in `src/layouts/Base.astro`.
+4. Push to `main`. `.github/workflows/deploy.yml` builds, checks and publishes. Allow up to 10 minutes.
 
-1. **Settings → Pages → Source: GitHub Actions.**
-2. Optional **variables** (Settings → Secrets and variables → Actions → Variables):
+`public/.nojekyll` stays: if the source is ever switched to a branch, Jekyll would otherwise drop the
+`_astro/` folder that holds the CSS and JavaScript. Pull requests run the same checks without
+deploying (`ci.yml`).
+
+Optional **variables** (Settings → Secrets and variables → Actions → Variables):
 
 | Variable | Effect |
 |---|---|
 | `WAITLIST_ENDPOINT` | Where the waitlist form posts (any service that accepts a plain HTML form POST). |
 | `CONTACT_EMAIL` | Address for data requests, shown on the privacy page. |
-| `SITE_URL`, `BASE_PATH` | Only for a custom domain: `https://your.domain` and `/`. |
+| `SITE_URL` | Only for a custom domain: `https://your.domain`. |
+| `BASE_PATH` | Only if the repository is not named `vccorg.github.io`: `/<repo-name>`. |
 
 **The waitlist form appears only when both `WAITLIST_ENDPOINT` and `CONTACT_EMAIL` are set.** Until then the
 page says the waitlist is opening soon, and the privacy page says no personal data is collected. Both

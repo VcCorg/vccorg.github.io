@@ -2,7 +2,7 @@
 import { checkSite } from "./site-checks.mjs";
 
 const dist = process.argv[2] || "dist";
-const base = process.env.BASE_PATH ?? "/keelyard-web";
+const base = process.env.BASE_PATH || "/";
 const site = process.env.SITE_URL || "https://vccorg.github.io";
 const problems = checkSite(dist, { base, site });
 if (problems.length) {
