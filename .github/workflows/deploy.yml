@@ -1,0 +1,53 @@
+# Builds and publishes the site to GitHub Pages on every push to main.
+#
+# One-time setup (repository Settings):
+#   - Pages > Build and deployment > Source: "GitHub Actions"
+#   - Variables (Settings > Secrets and variables > Actions > Variables), optional:
+#       WAITLIST_ENDPOINT  where the waitlist form posts; with CONTACT_EMAIL opens the form
+#       CONTACT_EMAIL      address for data requests, shown on the privacy page
+#       SITE_URL, BASE_PATH  only for a custom domain (https://your.domain and "/")
+name: deploy
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      PUBLIC_WAITLIST_ENDPOINT: ${{ vars.WAITLIST_ENDPOINT }}
+      PUBLIC_CONTACT_EMAIL: ${{ vars.CONTACT_EMAIL }}
+      SITE_URL: ${{ vars.SITE_URL || 'https://vccorg.github.io' }}
+      BASE_PATH: ${{ vars.BASE_PATH || '/keelyard-web' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npx astro check
+      - run: npm run build
+      - run: npm run check:links
+      - run: npm test
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

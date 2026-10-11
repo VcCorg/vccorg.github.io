@@ -1,0 +1,139 @@
+---
+import Base from "../layouts/Base.astro";
+import Waitlist from "../components/Waitlist.astro";
+import { GROUPS } from "../data/integrations";
+
+const proofs = [
+  {
+    title: "Context you can trace",
+    body: "Every read an agent makes is recorded: what it read, where from, how much, and what the model calls cost. When an answer is wrong, you can see what the agent was given.",
+  },
+  {
+    title: "Governance that says “undetermined”",
+    body: "Each product sets a governance floor. Teams can tighten it freely and loosen it only through a recorded, expiring exception. When Keel can't establish whether a run complies, it says so instead of passing it.",
+  },
+  {
+    title: "Vendor-neutral by design",
+    body: "Agents, IDE hand-offs and event triggers plug into registries, not hard-coded branches. Changing agents is configuration, and your governance comes with you.",
+  },
+];
+
+const steps = [
+  { title: "Know", body: "Onboard repositories, documentation and tickets into a domain's context. Extracted instructions are reviewed by a person and stamped with where they came from." },
+  { title: "Govern", body: "Set the floor once per product. See which domains sit above it, which have an exception, and which can't be ruled on." },
+  { title: "Build", body: "Hand a task to an agent or open it in an IDE through one governed launch point, with the reviewed context attached." },
+  { title: "Watch", body: "When a source page or repository changes, Keel tells you which approved instructions it affected and whose decision it is." },
+];
+
+const faqs = [
+  { q: "Is Keel available today?", a: "Keel is in early access. The waitlist is how we'll invite teams to the first public release." },
+  { q: "Which agents and tools does it work with?", a: "The list above shows what Keel connects to today and what's on the roadmap. We only mark something available when you could use it now." },
+  { q: "Where does my code go?", a: "Nowhere new. Keel runs on your machine or your own servers and reads from the systems you connect. Model calls go to the provider you configure, with your own key, or to a model running locally." },
+  { q: "Is it open source?", a: "Keel's core is open source under the Apache 2.0 licence." },
+  { q: "What will it cost?", a: "We're working out pricing with design partners and won't publish numbers until we've tested them." },
+];
+---
+<Base>
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow">Early access</span>
+      <h1>The governed context layer for coding agents</h1>
+      <p class="lede">
+        Keel gives coding agents the right context, records what they read, and holds them to your
+        governance floor, whichever repository host and agent your teams use.
+      </p>
+      <div class="ctas">
+        <a class="btn primary" href="#waitlist">Join the waitlist</a>
+        <a class="btn ghost" href="#why">See how it works</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section soft" id="why" aria-labelledby="why-title">
+    <div class="wrap">
+      <h2 id="why-title">Why Keel</h2>
+      <p class="lede">Coding agents are only as good as what they're given, and only as safe as what they're allowed to do.</p>
+      <div class="grid three" style="margin-top:2rem">
+        {proofs.map((p) => (
+          <article class="card">
+            <h3>{p.title}</h3>
+            <p class="muted">{p.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="how-title">
+    <div class="wrap">
+      <h2 id="how-title">How it works</h2>
+      <ol class="steps" style="margin-top:1.5rem">
+        {steps.map((s) => (
+          <li>
+            <h3>{s.title}</h3>
+            <p class="muted">{s.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section soft" aria-labelledby="local-title">
+    <div class="wrap grid two">
+      <div>
+        <h2 id="local-title">Runs where your code already is</h2>
+        <p class="muted">
+          A desktop app for macOS and Windows, or a command-line tool and web dashboard. Your code and
+          documents stay in the systems they live in today. Models are bring-your-own-key, or fully local.
+        </p>
+      </div>
+      <ul class="muted" style="margin:0;padding-left:1.2rem">
+        <li>No new place your source code is copied to</li>
+        <li>Your own model keys, or a local model with no network calls</li>
+        <li>A test mode that runs end to end with no keys at all</li>
+        <li>Open source core under Apache 2.0</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="integrations" aria-labelledby="int-title">
+    <div class="wrap">
+      <h2 id="int-title">Integrations</h2>
+      <p class="lede">
+        <span class="badge available">Available</span> in Keel today ·
+        <span class="badge planned">Planned</span> on the roadmap, not yet shipped
+      </p>
+      <div class="grid two" style="margin-top:2rem">
+        {GROUPS.map((g) => (
+          <div class="group">
+            <h3>{g.title}</h3>
+            <p class="muted small" style="margin:0">{g.blurb}</p>
+            <ul class="chips">
+              {g.items.map((i) => (
+                <li class="chip">
+                  {i.name}
+                  <span class={`badge ${i.status}`}>{i.status === "available" ? "Available" : "Planned"}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <p class="small muted">Product names are trademarks of their owners. Keel is not affiliated with or endorsed by them.</p>
+    </div>
+  </section>
+
+  <Waitlist />
+
+  <section class="section" id="faq" aria-labelledby="faq-title">
+    <div class="wrap"><div class="prose">
+      <h2 id="faq-title">Questions</h2>
+      {faqs.map((f) => (
+        <details>
+          <summary>{f.q}</summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </div></div>
+  </section>
+</Base>
