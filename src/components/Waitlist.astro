@@ -1,0 +1,77 @@
+---
+import { WAITLIST_ENDPOINT, WAITLIST_OPEN } from "../data/site";
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+const roles = ["Engineering leader", "Developer", "Platform / developer experience", "Architect", "Product or delivery", "Security or compliance", "Other"];
+const sizes = ["1–10", "11–50", "51–200", "201–1,000", "More than 1,000"];
+const hosts = ["Bitbucket Cloud", "Bitbucket Data Center", "GitHub", "GitLab", "Other"];
+const agents = ["Claude Code", "GitHub Copilot", "Cursor", "Devin", "Codex", "Windsurf", "None yet", "Other"];
+---
+<section class="section soft" id="waitlist" aria-labelledby="waitlist-title">
+  <div class="wrap grid two">
+    <div>
+      <h2 id="waitlist-title">Get early access</h2>
+      <p class="lede">Join the waitlist for the first public release.</p>
+      <p class="muted">
+        Teams willing to try Keel early and tell us what's missing can apply as design partners:
+        you get a direct line to the people building it, and a say in what comes next.
+      </p>
+    </div>
+    <div>
+      {WAITLIST_OPEN ? (
+        <form class="form" method="post" action={WAITLIST_ENDPOINT}>
+          <div class="field">
+            <label for="email">Work email</label>
+            <input id="email" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div class="field">
+            <label for="role">Your role</label>
+            <select id="role" name="role">
+              <option value="">Choose one (optional)</option>
+              {roles.map((r) => <option>{r}</option>)}
+            </select>
+          </div>
+          <div class="field">
+            <label for="size">Engineering team size</label>
+            <select id="size" name="team_size">
+              <option value="">Choose one (optional)</option>
+              {sizes.map((s) => <option>{s}</option>)}
+            </select>
+          </div>
+          <div class="field">
+            <label for="host">Where your code lives</label>
+            <select id="host" name="repo_host">
+              <option value="">Choose one (optional)</option>
+              {hosts.map((h) => <option>{h}</option>)}
+            </select>
+          </div>
+          <div class="field">
+            <label for="agent">Coding agent your team uses most</label>
+            <select id="agent" name="coding_agent">
+              <option value="">Choose one (optional)</option>
+              {agents.map((a) => <option>{a}</option>)}
+            </select>
+          </div>
+          <label class="check">
+            <input type="checkbox" name="design_partner" value="yes" />
+            <span>I'd like to be considered as a design partner.</span>
+          </label>
+          {/* Spam trap: hidden from people, filled in by bots. */}
+          <div aria-hidden="true" style="position:absolute;left:-10000px;">
+            <label for="website">Leave this empty</label>
+            <input id="website" name="_gotcha" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+          <p class="small muted">
+            We'll use this only to contact you about Keel. See <a href={`${base}privacy/`}>how we handle it</a>.
+          </p>
+          <div><button class="btn primary" type="submit">Join the waitlist</button></div>
+        </form>
+      ) : (
+        <div class="notice" role="status">
+          <p><strong>The waitlist opens shortly.</strong></p>
+          <p class="muted" style="margin:0">We're setting up how we'll store your details properly before we ask for them.</p>
+        </div>
+      )}
+    </div>
+  </div>
+</section>

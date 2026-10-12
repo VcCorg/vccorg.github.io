@@ -1,3 +1,67 @@
 # keelyard-web
 
-Marketing site for Keel. The site itself is being added in a pull request.
+The marketing site for **Keel**, the governed context layer for coding agents.
+The product itself lives in [VcCorg/keelyard](https://github.com/VcCorg/keelyard).
+
+Static [Astro](https://astro.build) site, published to GitHub Pages at <https://vccorg.github.io/>.
+
+## Work on it
+
+```bash
+npm ci
+npm run dev          # http://localhost:4321/
+npm run build        # -> dist/
+npm test             # builds the site several ways and checks what a visitor gets
+npm run check:links  # every link resolves under the base path
+```
+
+Node 22.12 or newer (`.nvmrc`).
+
+## Publishing
+
+This follows the [GitHub Pages quickstart](https://docs.github.com/en/pages/quickstart) for an organisation
+site, with one deliberate difference at step 8.
+
+1. **The repository is named `vccorg.github.io`.** That name is what puts the site at the root,
+   `https://vccorg.github.io/`. Under any other name it is a project site at
+   `https://vccorg.github.io/<repo>/`; then set the variable `BASE_PATH=/<repo>`.
+2. **The repository is public.** On GitHub Free, Pages publishes only from public repositories.
+3. **Settings → Pages → Build and deployment → Source: GitHub Actions.** The quickstart picks
+   "Deploy from a branch", which serves the files exactly as committed (through Jekyll). This site has to be
+   built first, so the deploy workflow builds it and publishes the result. The quickstart's `_config.yml`
+   title and description are Jekyll settings; here they live in `src/layouts/Base.astro`.
+4. Push to `main`. `.github/workflows/deploy.yml` builds, checks and publishes. Allow up to 10 minutes.
+
+`public/.nojekyll` stays: if the source is ever switched to a branch, Jekyll would otherwise drop the
+`_astro/` folder that holds the CSS and JavaScript. Pull requests run the same checks without
+deploying (`ci.yml`).
+
+Optional **variables** (Settings → Secrets and variables → Actions → Variables):
+
+| Variable | Effect |
+|---|---|
+| `WAITLIST_ENDPOINT` | Where the waitlist form posts (any service that accepts a plain HTML form POST). |
+| `CONTACT_EMAIL` | Address for data requests, shown on the privacy page. |
+| `SITE_URL` | Only for a custom domain: `https://your.domain`. |
+| `BASE_PATH` | Only if the repository is not named `vccorg.github.io`: `/<repo-name>`. |
+
+**The waitlist form appears only when both `WAITLIST_ENDPOINT` and `CONTACT_EMAIL` are set.** Until then the
+page says the waitlist is opening soon, and the privacy page says no personal data is collected. Both
+statements stay true either way.
+
+## Rules for content
+
+- **Only mark an integration "Available" if someone could use it in Keel today.** The list is
+  `src/data/integrations.ts`; check it against the keelyard code when you change it. Everything else is
+  "Planned".
+- **No prices** until they've been tested with design partners.
+- **No third-party scripts, fonts, trackers or images.** The privacy page promises it, and a test enforces it.
+- **No customer or employer names** in copy without written permission.
+- Every internal link goes through `import.meta.env.BASE_URL`; a bare `/path` 404s on a project site, and the
+  link check fails the build.
+
+## Open before launch
+
+- Trademark search on "Keel" in software classes.
+- A form service and a contact address for the waitlist.
+- A custom domain, if wanted.

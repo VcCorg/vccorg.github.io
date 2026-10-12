@@ -1,0 +1,36 @@
+---
+import Base from "../layouts/Base.astro";
+import { CONTACT_EMAIL, WAITLIST_OPEN } from "../data/site";
+---
+<Base title="Privacy" description="What this site collects and why.">
+  <section class="section">
+    <div class="wrap"><div class="prose">
+      <h1>Privacy</h1>
+      <p class="lede">This site is deliberately small: no cookies, no analytics, no third-party scripts or fonts.</p>
+
+      <h2>What we collect</h2>
+      {WAITLIST_OPEN ? (
+        <>
+          <p>
+            Only what you type into the waitlist form: your work email, and optionally your role, team size,
+            where your code lives, the coding agent you use, and whether you'd like to be a design partner.
+            We use it to contact you about Keel and to understand which integrations matter most. We don't
+            sell it or share it for anyone else's marketing.
+          </p>
+          <p>
+            The form is processed by a form service that stores submissions on our behalf. To see, correct or
+            delete what we hold about you, email <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+          </p>
+        </>
+      ) : (
+        <p>Nothing. The waitlist isn't open yet, so this site collects no personal data.</p>
+      )}
+
+      <h2>Hosting</h2>
+      <p>
+        The site is hosted on GitHub Pages. GitHub may log visitors' IP addresses for security, as described
+        in GitHub's own privacy statement. We don't receive or use those logs.
+      </p>
+    </div></div>
+  </section>
+</Base>

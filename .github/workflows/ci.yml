@@ -1,0 +1,25 @@
+# Checks every pull request: types, a build, the site tests and a link check.
+name: ci
+on:
+  pull_request:
+  push:
+    branches-ignore: [main]   # main is built by deploy.yml
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - run: npx astro check
+      - run: npm run build
+      - name: "Links resolve under the GitHub Pages base path"
+        run: npm run check:links
+      - name: "Site tests (several builds: closed, open, custom domain)"
+        run: npm test
