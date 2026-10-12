@@ -1,0 +1,46 @@
+---
+import Base from "../layouts/Base.astro";
+import { USE_CASES } from "../data/useCases";
+import { capabilityById } from "../data/capabilities";
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+---
+<Base title="Use cases" description="How teams use Keel: coding agents on real codebases, onboarding, keeping instructions true, audits, skill roll-outs, internal agents, PR review and more.">
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow">Use cases</span>
+      <h1>What teams use Keel for</h1>
+      <p class="lede">
+        Each one is built from <a href={`${base}capabilities/`}>capabilities</a> that ship today.
+      </p>
+    </div>
+  </section>
+
+  <section class="section soft" aria-label="Use cases">
+    <div class="wrap grid two">
+      {USE_CASES.map((u) => (
+        <article class="card" id={u.id} aria-labelledby={`${u.id}-title`}>
+          <span class="eyebrow small">{u.who}</span>
+          <h2 class="h3" id={`${u.id}-title`}>{u.title}</h2>
+          <p class="muted">{u.problem}</p>
+          <ol class="small">
+            {u.steps.map((s) => <li>{s}</li>)}
+          </ol>
+          <ul class="chips" aria-label="Capabilities used">
+            {u.capabilities.map((id) => (
+              <li><a class="chip" href={`${base}capabilities/#${id}`}>{capabilityById(id)?.name ?? id}</a></li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2>Have a problem that isn't here?</h2>
+      <p class="muted">We're choosing design partners now. Tell us what you'd use Keel for.</p>
+      <a class="btn primary" href={`${base}#waitlist`}>Join the waitlist</a>
+    </div>
+  </section>
+</Base>

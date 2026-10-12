@@ -1,0 +1,52 @@
+---
+import Base from "../layouts/Base.astro";
+import { CAPABILITIES } from "../data/capabilities";
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+---
+<Base title="Capabilities" description="Everything Keel does today: context lifecycle, knowledge, agent building, skills, MCP, governance, governed builds, watchers, evaluation and tracing.">
+  <section class="hero">
+    <div class="wrap">
+      <span class="eyebrow">Capabilities</span>
+      <h1>What Keel does</h1>
+      <p class="lede">
+        Everything on this page is in Keel today. Integrations still on the roadmap are listed
+        separately, on the <a href={`${base}#integrations`}>integrations list</a>.
+      </p>
+      <nav aria-label="Capabilities" class="grid three toc">
+        {CAPABILITIES.map((c) => (
+          <a class="card link-card" href={`#${c.id}`}>
+            <h2 class="h3">{c.name}</h2>
+            <p class="muted small">{c.tagline}</p>
+          </a>
+        ))}
+      </nav>
+      <p style="margin-top:2rem"><a class="btn ghost" href={`${base}use-cases/`}>See them put to work in use cases</a></p>
+    </div>
+  </section>
+
+  {CAPABILITIES.map((c, i) => (
+    <section class={`section${i % 2 === 0 ? " soft" : ""}`} id={c.id} aria-labelledby={`${c.id}-title`}>
+      <div class="wrap">
+        <h2 id={`${c.id}-title`}>{c.name}</h2>
+        <p class="lede">{c.summary}</p>
+        <ul class="features">
+          {c.features.map((f) => (
+            <li>
+              <h3>{f.name}</h3>
+              <p class="muted">{f.detail}</p>
+            </li>
+          ))}
+        </ul>
+        <dl class="surfaces small">
+          {c.cli.length > 0 && (
+            <div><dt>Command line</dt><dd>{c.cli.map((x) => <code>{x}</code>)}</dd></div>
+          )}
+          {c.dashboard.length > 0 && (
+            <div><dt>Dashboard</dt><dd>{c.dashboard.join(" · ")}</dd></div>
+          )}
+        </dl>
+      </div>
+    </section>
+  ))}
+</Base>
