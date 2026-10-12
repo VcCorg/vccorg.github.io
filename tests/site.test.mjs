@@ -166,7 +166,8 @@ test("every capability has its own section, and every use case points at real on
 test("dashboard pages that are still placeholders in keelyard are not advertised", () => {
   for (const file of ["index.html", "capabilities/index.html", "use-cases/index.html"]) {
     const html = read(closed, file);
-    for (const name of ["Assignments", "Shared agents", "Shared KG", "Shared Agents"]) {
+    // Marketplace is static links in keelyard, not somewhere to browse or install skills.
+    for (const name of ["Assignments", "Shared agents", "Shared KG", "Shared Agents", "Marketplace"]) {
       assert.ok(!html.includes(name), `${file}: ${name}`);
     }
   }
