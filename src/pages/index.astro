@@ -2,6 +2,10 @@
 import Base from "../layouts/Base.astro";
 import Waitlist from "../components/Waitlist.astro";
 import { GROUPS } from "../data/integrations";
+import { CAPABILITIES } from "../data/capabilities";
+import { USE_CASES } from "../data/useCases";
+
+const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
 
 const proofs = [
   {
@@ -78,7 +82,26 @@ const faqs = [
     </div>
   </section>
 
-  <section class="section soft" aria-labelledby="local-title">
+  <section class="section soft" id="capabilities" aria-labelledby="cap-title">
+    <div class="wrap">
+      <h2 id="cap-title">Everything around the agent</h2>
+      <p class="lede">Context is where Keel starts. It also builds agents, manages skills and MCP servers, and measures what all of it costs.</p>
+      <div class="grid three" style="margin-top:2rem">
+        {CAPABILITIES.map((c) => (
+          <a class="card link-card" href={`${base}capabilities/#${c.id}`}>
+            <h3>{c.name}</h3>
+            <p class="muted small">{c.tagline}</p>
+          </a>
+        ))}
+      </div>
+      <div class="ctas">
+        <a class="btn ghost" href={`${base}capabilities/`}>All capabilities</a>
+        <a class="btn ghost" href={`${base}use-cases/`}>{USE_CASES.length} use cases</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="local-title">
     <div class="wrap grid two">
       <div>
         <h2 id="local-title">Runs where your code already is</h2>

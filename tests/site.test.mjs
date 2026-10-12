@@ -58,7 +58,7 @@ test("a custom-domain build resolves and points canonical URLs at the domain", (
 
 test("nothing is loaded from another site: no third-party scripts, styles, fonts or images", () => {
   for (const dir of [closed, open]) {
-    for (const file of ["index.html", "privacy/index.html", "404.html"]) {
+    for (const file of ["index.html", "capabilities/index.html", "use-cases/index.html", "privacy/index.html", "404.html"]) {
       const html = read(dir, file);
       for (const { attr, value } of references(html)) {
         if (attr === "src") assert.ok(!/^(https?:)?\/\//.test(value), `${file}: ${value}`);
@@ -98,7 +98,7 @@ test("fully configured, the form posts to the endpoint with the fields we promis
 });
 
 test("every page has a title, a description and a canonical URL on the right host", () => {
-  for (const file of ["index.html", "privacy/index.html"]) {
+  for (const file of ["index.html", "capabilities/index.html", "use-cases/index.html", "privacy/index.html"]) {
     const html = read(closed, file);
     assert.match(html, /<title>[^<]+<\/title>/);
     assert.match(html, /<meta name="description" content="[^"]+"/);
@@ -118,5 +118,64 @@ test("integrations are labelled, and planned ones are never shown as available",
     const chip = html.match(new RegExp(`<li class="chip"[^>]*>\\s*${name}\\s*<span class="badge (\\w+)"`));
     assert.ok(chip, name);
     assert.equal(chip[1], "planned", name);
+  }
+});
+
+// Node strips TypeScript types on import from 22.18, which is why package.json asks for it.
+const { CAPABILITIES } = await import("../src/data/capabilities.ts");
+const { USE_CASES } = await import("../src/data/useCases.ts");
+
+test("every capability feature names where it lives in keelyard", () => {
+  const ids = CAPABILITIES.map((c) => c.id);
+  assert.equal(new Set(ids).size, ids.length, "capability ids are unique");
+  for (const c of CAPABILITIES) {
+    assert.ok(c.features.length > 0, c.id);
+    for (const f of c.features) {
+      // A path, not a promise: something like agentic-cli/src/... or dashboard/...
+      assert.match(f.evidence, /^(agentic-cli|dashboard|desktop|skills|mcp-servers|kg-infrastructure)\//, `${c.id}: ${f.name}`);
+    }
+  }
+});
+
+test("the evidence paths are kept out of the published pages", () => {
+  // The product repository is private, so a path is meaningless to a visitor and discloses its layout.
+  const html = read(closed, "capabilities/index.html");
+  for (const c of CAPABILITIES) {
+    for (const f of c.features) assert.ok(!html.includes(f.evidence), f.evidence);
+  }
+});
+
+test("every capability has its own section, and every use case points at real ones", () => {
+  const caps = read(closed, "capabilities/index.html");
+  for (const c of CAPABILITIES) assert.match(caps, new RegExp(`<section[^>]+id="${c.id}"`), c.id);
+  const known = new Set(CAPABILITIES.map((c) => c.id));
+  const used = new Set();
+  for (const u of USE_CASES) {
+    assert.ok(u.capabilities.length > 0 && u.steps.length > 0, u.id);
+    for (const id of u.capabilities) {
+      assert.ok(known.has(id), `${u.id} names unknown capability ${id}`);
+      used.add(id);
+    }
+  }
+  const html = read(closed, "use-cases/index.html");
+  assert.match(html, /href="\/capabilities\/#context-lifecycle"/);
+  // Every capability is put to work by at least one use case, or it is a feature nobody needs.
+  for (const id of known) assert.ok(used.has(id), `no use case uses ${id}`);
+});
+
+test("dashboard pages that are still placeholders in keelyard are not advertised", () => {
+  for (const file of ["index.html", "capabilities/index.html", "use-cases/index.html"]) {
+    const html = read(closed, file);
+    for (const name of ["Assignments", "Shared agents", "Shared KG", "Shared Agents"]) {
+      assert.ok(!html.includes(name), `${file}: ${name}`);
+    }
+  }
+});
+
+test("capabilities and use cases are in the main navigation on every page", () => {
+  for (const file of ["index.html", "privacy/index.html", "404.html"]) {
+    const html = read(projectSite, file);
+    assert.match(html, /href="\/keelyard-web\/capabilities\/"/, file);
+    assert.match(html, /href="\/keelyard-web\/use-cases\/"/, file);
   }
 });

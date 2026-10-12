@@ -130,3 +130,25 @@ details p { margin: .75rem 0 0; color: var(--fg-muted); }
 
 .prose { max-width: 44rem; }
 .prose h2 { margin-top: 2rem; font-size: 1.35rem; }
+
+/* capabilities and use cases */
+.h3 { font-size: 1.15rem; margin: 0 0 .4rem; }
+.toc { margin-top: 2rem; }
+.link-card { display: block; color: inherit; text-decoration: none; }
+.link-card:hover { border-color: var(--accent); }
+.link-card p { margin: 0; }
+.features { list-style: none; padding: 0; margin: 2rem 0 0; display: grid; gap: 1.25rem 2rem; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
+.features li { border-top: 3px solid var(--sea); padding-top: .8rem; }
+.features p { margin: 0; }
+.surfaces { margin: 2rem 0 0; display: grid; gap: .5rem; }
+.surfaces div { display: flex; flex-wrap: wrap; gap: .25rem .75rem; }
+.surfaces dt { font-weight: 600; min-width: 8rem; }
+.surfaces dd { margin: 0; color: var(--fg-muted); display: flex; flex-wrap: wrap; gap: .4rem; }
+code { font: .9em/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: var(--plan-bg); color: var(--plan-fg); padding: .1rem .4rem; border-radius: 6px; }
+.eyebrow.small { font-size: .75rem; margin-bottom: .5rem; }
+a.chip { color: var(--fg); text-decoration: none; padding: .35rem .85rem; }
+a.chip:hover { border-color: var(--accent); }
+.card ol { padding-left: 1.2rem; color: var(--fg-muted); }
+.card ol li { margin-bottom: .3rem; }
+section[id] { scroll-margin-top: 1rem; }
+.section:not(.soft) + .section:not(.soft) { border-top: 1px solid var(--line); }
