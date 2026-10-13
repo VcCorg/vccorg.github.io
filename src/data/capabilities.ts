@@ -94,10 +94,9 @@ export const CAPABILITIES: Capability[] = [
       { name: "Skill trials", detail: "Check a skill's structure, scan it for security problems, test it against policy, and have it judged before it is published.", evidence: "dashboard/backend/src/services/skill_trial_service.py" },
       { name: "Security scan", detail: "Flag skills that ask an agent to do something risky.", evidence: "agentic-cli/src/agentic_cli/skill_security.py" },
       { name: "Upstream promotion", detail: "Promote a skill a team improved back to the shared registry.", evidence: "agentic-cli/src/agentic_cli/skills_upstream.py" },
-      { name: "Marketplace", detail: "Browse and install skills from the dashboard.", evidence: "dashboard/frontend/src/pages/Marketplace.tsx" },
     ],
     cli: ["keel skill", "keel skill-registry", "keel skill upstream"],
-    dashboard: ["Skills", "Persona skills", "Skill trials", "Marketplace"],
+    dashboard: ["Skills", "Persona skills", "Skill trials"],
   },
   {
     id: "mcp",
