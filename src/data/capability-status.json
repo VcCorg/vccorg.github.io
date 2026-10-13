@@ -1,0 +1,591 @@
+{
+  "schema": 1,
+  "verified_at": "2026-10-13",
+  "commit": "cc42e0cd671c",
+  "tier": "hermetic",
+  "capabilities": [
+    {
+      "id": "context-lifecycle",
+      "name": "Context lifecycle",
+      "features": [
+        {
+          "id": "domain-onboarding",
+          "name": "Domain onboarding",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "reviewed-extraction",
+          "name": "Reviewed extraction",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "nothing-invented",
+          "name": "Nothing invented",
+          "surfaces": {
+            "cli": "pass"
+          }
+        },
+        {
+          "id": "readiness-score",
+          "name": "Readiness score",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "semantic-drift",
+          "name": "Semantic drift",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "fan-out-review-queue",
+          "name": "Fan-out plan and review queue",
+          "surfaces": {
+            "cli": "pass"
+          }
+        },
+        {
+          "id": "template-drift",
+          "name": "Template drift",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "portable-context",
+          "name": "Portable context bundles",
+          "surfaces": {
+            "cli": "pass"
+          }
+        }
+      ]
+    },
+    {
+      "id": "knowledge",
+      "name": "Knowledge management",
+      "features": [
+        {
+          "id": "kg-ingest",
+          "name": "Knowledge graph ingest",
+          "surfaces": {
+            "cli": "not-run",
+            "api": "pass",
+            "ui": "not-run"
+          }
+        },
+        {
+          "id": "graphs",
+          "name": "Knowledge and code graphs",
+          "surfaces": {
+            "cli": "not-run",
+            "api": "not-covered",
+            "ui": "not-run"
+          }
+        },
+        {
+          "id": "knowledge-domains",
+          "name": "Shared knowledge domains",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "retrievers",
+          "name": "Retrievers",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "data-sources",
+          "name": "Data sources",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "okf-export",
+          "name": "OKF export",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "not-run"
+          }
+        },
+        {
+          "id": "devin-knowledge",
+          "name": "Knowledge pushed to Devin",
+          "surfaces": {
+            "cli": "pass",
+            "api": "not-run",
+            "ui": "not-run"
+          }
+        },
+        {
+          "id": "enterprise-search",
+          "name": "Enterprise search",
+          "surfaces": {
+            "cli": "pass"
+          }
+        },
+        {
+          "id": "portfolio-map",
+          "name": "Portfolio map",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        }
+      ]
+    },
+    {
+      "id": "agent-builder",
+      "name": "Agent builder",
+      "features": [
+        {
+          "id": "templates",
+          "name": "Templates",
+          "surfaces": {
+            "cli": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "tool-library",
+          "name": "Tool library",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "project-canvas",
+          "name": "Project canvas",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "run-and-test",
+          "name": "Run and test",
+          "surfaces": {
+            "cli": "not-run",
+            "api": "pass",
+            "ui": "not-run"
+          }
+        },
+        {
+          "id": "deployments",
+          "name": "Deployments",
+          "surfaces": {
+            "api": "pass",
+            "ui": "pass"
+          }
+        }
+      ]
+    },
+    {
+      "id": "skills",
+      "name": "Skills management",
+      "features": [
+        {
+          "id": "skills-registry",
+          "name": "Skills registry",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "skill-authoring",
+          "name": "Skill authoring",
+          "surfaces": {
+            "cli": "pass"
+          }
+        },
+        {
+          "id": "persona-skills",
+          "name": "Persona skills",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "skill-policy",
+          "name": "Allow and deny policy",
+          "surfaces": {
+            "cli": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "skill-trials",
+          "name": "Skill trials",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "security-scan",
+          "name": "Security scan",
+          "surfaces": {
+            "cli": "not-run",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "upstream-promotion",
+          "name": "Upstream promotion",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass"
+          }
+        }
+      ]
+    },
+    {
+      "id": "mcp",
+      "name": "MCP management",
+      "features": [
+        {
+          "id": "server-lifecycle",
+          "name": "Server lifecycle",
+          "surfaces": {
+            "cli": "not-run",
+            "api": "pass",
+            "ui": "not-run"
+          }
+        },
+        {
+          "id": "health-checks",
+          "name": "Health checks",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "sync-to-tools",
+          "name": "Sync to agents and IDEs",
+          "surfaces": {
+            "cli": "pass"
+          }
+        },
+        {
+          "id": "included-servers",
+          "name": "Included servers",
+          "surfaces": {}
+        }
+      ]
+    },
+    {
+      "id": "governance",
+      "name": "Governance",
+      "features": [
+        {
+          "id": "products",
+          "name": "Products",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "governance-floor",
+          "name": "Governance floor",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "exceptions-ledger",
+          "name": "Exceptions ledger",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "session-checks",
+          "name": "Session checks",
+          "surfaces": {
+            "cli": "pass"
+          }
+        },
+        {
+          "id": "build-governance",
+          "name": "Build governance",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "company-data-guard",
+          "name": "Company-data guard",
+          "surfaces": {}
+        }
+      ]
+    },
+    {
+      "id": "build",
+      "name": "Governed builds",
+      "features": [
+        {
+          "id": "repository-onboarding",
+          "name": "Repository onboarding",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "engine-registry",
+          "name": "Engine registry",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "ide-handoff",
+          "name": "IDE hand-off",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "build-sessions",
+          "name": "Build sessions",
+          "surfaces": {
+            "cli": "not-run",
+            "api": "pass",
+            "ui": "not-run"
+          }
+        },
+        {
+          "id": "snapshots",
+          "name": "Snapshots",
+          "surfaces": {
+            "cli": "not-run",
+            "api": "pass",
+            "ui": "pass"
+          }
+        }
+      ]
+    },
+    {
+      "id": "watchers",
+      "name": "Watchers",
+      "features": [
+        {
+          "id": "watcher-bindings",
+          "name": "Watcher bindings",
+          "surfaces": {
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "pr-review-trigger",
+          "name": "Pull-request reviews",
+          "surfaces": {
+            "api": "pass"
+          }
+        },
+        {
+          "id": "drift-trigger",
+          "name": "Drift triggers",
+          "surfaces": {
+            "api": "pass"
+          }
+        }
+      ]
+    },
+    {
+      "id": "evaluation",
+      "name": "Evaluation and tracing",
+      "features": [
+        {
+          "id": "context-trace",
+          "name": "Context trace",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "payload-store",
+          "name": "Payload store",
+          "surfaces": {
+            "cli": "pass"
+          }
+        },
+        {
+          "id": "tokens-and-cost",
+          "name": "Tokens and cost",
+          "surfaces": {
+            "cli": "pass"
+          }
+        },
+        {
+          "id": "evaluations",
+          "name": "Evaluations",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "context-playground",
+          "name": "Context playground",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "session-feed",
+          "name": "Session feed",
+          "surfaces": {
+            "cli": "pass"
+          }
+        }
+      ]
+    },
+    {
+      "id": "requirements",
+      "name": "Requirements",
+      "features": [
+        {
+          "id": "ideate",
+          "name": "Ideate",
+          "surfaces": {
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "push-to-jira",
+          "name": "Push to Jira",
+          "surfaces": {
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "tasks",
+          "name": "Tasks",
+          "surfaces": {
+            "api": "pass",
+            "ui": "pass"
+          }
+        }
+      ]
+    },
+    {
+      "id": "platform",
+      "name": "Platform and administration",
+      "features": [
+        {
+          "id": "install-and-health",
+          "name": "Setup and health check",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "models",
+          "name": "Models your way",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "roles-and-sign-on",
+          "name": "Roles and sign-on",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "audit-and-activity",
+          "name": "Audit and activity",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "administration",
+          "name": "Administration",
+          "surfaces": {
+            "cli": "pass",
+            "api": "pass",
+            "ui": "pass"
+          }
+        },
+        {
+          "id": "consoles",
+          "name": "CLI console, terminal and chat",
+          "surfaces": {
+            "api": "pass",
+            "ui": "pass"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -140,6 +140,8 @@ details p { margin: .75rem 0 0; color: var(--fg-muted); }
 .features { list-style: none; padding: 0; margin: 2rem 0 0; display: grid; gap: 1.25rem 2rem; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); }
 .features li { border-top: 3px solid var(--sea); padding-top: .8rem; }
 .features p { margin: 0; }
+.features p.verified { margin-top: .5rem; display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+#verified { margin-top: 1.5rem; }
 .surfaces { margin: 2rem 0 0; display: grid; gap: .5rem; }
 .surfaces div { display: flex; flex-wrap: wrap; gap: .25rem .75rem; }
 .surfaces dt { font-weight: 600; min-width: 8rem; }

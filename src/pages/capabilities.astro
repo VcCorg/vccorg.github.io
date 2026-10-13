@@ -1,8 +1,12 @@
 ---
 import Base from "../layouts/Base.astro";
-import { CAPABILITIES } from "../data/capabilities";
+import { CAPABILITIES, VERIFICATION, type Surface } from "../data/capabilities";
 
 const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
+const SURFACE_NAMES: Record<Surface, string> = { cli: "command line", api: "API", ui: "dashboard" };
+const verifiedOn = new Date(`${VERIFICATION.date}T00:00:00Z`).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
+const counted = CAPABILITIES.flatMap((c) => c.features);
+const verifiedCount = counted.filter((f) => f.verified).length;
 ---
 <Base title="Capabilities" description="Everything Keel does today: context lifecycle, knowledge, agent building, skills, MCP, governance, governed builds, watchers, evaluation and tracing.">
   <section class="hero">
@@ -12,6 +16,12 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
       <p class="lede">
         Everything on this page is in Keel today. Integrations still on the roadmap are listed
         separately, on the <a href={`${base}#integrations`}>integrations list</a>.
+      </p>
+      <p class="notice small" id="verified">
+        <span class="badge available">Verified</span> means the feature passed Keel's end-to-end tests on every
+        surface it offers (command line, API, dashboard) on <time datetime={VERIFICATION.date}>{verifiedOn}</time>.
+        {verifiedCount} of {counted.length} features carry it today; the rest are in Keel but not yet proven end to
+        end, so they don't.
       </p>
       <nav aria-label="Capabilities" class="grid three toc">
         {CAPABILITIES.map((c) => (
@@ -35,6 +45,12 @@ const base = import.meta.env.BASE_URL.replace(/\/?$/, "/");
             <li>
               <h3>{f.name}</h3>
               <p class="muted">{f.detail}</p>
+              {f.verified && (
+                <p class="verified small" data-feature={f.id}>
+                  <span class="badge available">Verified</span>
+                  <span class="muted">{(Object.keys(f.surfaces) as Surface[]).map((s) => SURFACE_NAMES[s]).join(" · ")}</span>
+                </p>
+              )}
             </li>
           ))}
         </ul>
