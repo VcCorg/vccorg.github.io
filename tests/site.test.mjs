@@ -180,3 +180,66 @@ test("capabilities and use cases are in the main navigation on every page", () =
     assert.match(html, /href="\/keelyard-web\/use-cases\/"/, file);
   }
 });
+
+const { merge, PROSE, VERIFICATION } = await import("../src/data/capabilities.ts");
+const STATUS = JSON.parse(fs.readFileSync(path.join(root, "src/data/capability-status.json"), "utf8"));
+
+test("the status file is keelyard's, recent enough to mean something, and from a full run", () => {
+  // keelyard's site_status.py refuses a partial run and one without a commit; this
+  // holds the committed file to the same shape, so a hand edit can't slip past.
+  assert.equal(STATUS.schema, 1);
+  assert.match(STATUS.verified_at, /^\d{4}-\d{2}-\d{2}$/);
+  assert.ok(new Date(`${STATUS.verified_at}T00:00:00Z`) <= new Date(), "verified in the future");
+  assert.match(STATUS.commit, /^[0-9a-f]{7,40}$/);
+  assert.ok(["hermetic", "services", "live"].includes(STATUS.tier), STATUS.tier);
+  assert.equal(VERIFICATION.date, STATUS.verified_at);
+  for (const c of STATUS.capabilities) {
+    for (const f of c.features) {
+      for (const [surface, s] of Object.entries(f.surfaces)) {
+        assert.ok(["cli", "api", "ui"].includes(surface), `${c.id}/${f.id}: ${surface}`);
+        assert.ok(["pass", "fail", "not-run", "not-covered"].includes(s), `${c.id}/${f.id}: ${s}`);
+      }
+    }
+  }
+});
+
+test("the catalog decides which features exist: the site lists exactly those, in its order", () => {
+  assert.deepEqual(CAPABILITIES.map((c) => c.id), STATUS.capabilities.map((c) => c.id));
+  for (const [i, c] of CAPABILITIES.entries()) {
+    assert.deepEqual(c.features.map((f) => f.id), STATUS.capabilities[i].features.map((f) => f.id), c.id);
+    assert.deepEqual(c.features.map((f) => f.name), STATUS.capabilities[i].features.map((f) => f.name), c.id);
+  }
+});
+
+test("a catalogued feature without words here, or words for one the catalog dropped, stops the build", () => {
+  const added = structuredClone(STATUS);
+  added.capabilities[0].features.push({ id: "teleport", name: "Teleport", surfaces: { cli: "pass" } });
+  assert.throws(() => merge(added, PROSE), /context-lifecycle\/teleport \(Teleport\) is in the catalog but has no detail/);
+
+  const dropped = structuredClone(STATUS);
+  dropped.capabilities[0].features = dropped.capabilities[0].features.filter((f) => f.id !== "readiness-score");
+  assert.throws(() => merge(dropped, PROSE), /context-lifecycle\/readiness-score has prose but is not in the catalog/);
+});
+
+test("verified means every surface a feature offers ran and passed, and nothing else earns the badge", () => {
+  const s = structuredClone(STATUS);
+  const [first, second, third] = s.capabilities[0].features;
+  first.surfaces = { cli: "pass", api: "pass" };
+  second.surfaces = { cli: "pass", api: "not-run" };
+  third.surfaces = {};
+  const [cap] = merge(s, PROSE);
+  assert.equal(cap.features[0].verified, true);
+  assert.equal(cap.features[1].verified, false, "a surface that didn't run");
+  assert.equal(cap.features[2].verified, false, "a feature that claims no surface has nothing to pass");
+
+  // And the published page agrees with the status file, feature by feature.
+  const html = read(closed, "capabilities/index.html");
+  for (const c of CAPABILITIES) {
+    for (const f of c.features) {
+      assert.equal(html.includes(`data-feature="${f.id}"`), f.verified, `${c.id}/${f.id}`);
+    }
+  }
+  const count = CAPABILITIES.flatMap((c) => c.features).filter((f) => f.verified).length;
+  assert.match(html, new RegExp(`${count} of ${CAPABILITIES.flatMap((c) => c.features).length} features carry it`));
+  assert.match(html, new RegExp(`<time datetime="${STATUS.verified_at}"`));
+});
